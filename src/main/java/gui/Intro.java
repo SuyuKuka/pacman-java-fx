@@ -49,6 +49,11 @@ public class Intro extends Application {
             launchMenu.start(primaryStage);
         });
 
+        mediaPlayer.setOnError(() -> {
+            Menu launchMenu = new Menu();
+            launchMenu.start(primaryStage);
+        });
+
         mediaPlayer.play();
 
     }
