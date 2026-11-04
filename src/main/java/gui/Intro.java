@@ -46,6 +46,8 @@ public class Intro extends Application {
 
         mediaPlayer.setOnEndOfMedia(() -> Menu.INSTANCE.start(primaryStage));
 
+        mediaPlayer.setOnError(() -> Menu.INSTANCE.start(primaryStage));
+
         mediaPlayer.play();
 
     }
