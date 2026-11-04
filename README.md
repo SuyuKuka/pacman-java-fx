@@ -2,7 +2,7 @@
 
 ## About
 
-Mac-Pan-Pac-Man is a JavaFX-based arcade puzzle game developed as an academic group project. Building upon a base architecture provided by the teaching staff, our team designed, modified, and implemented new features, menus, and multimedia integrations in Java.
+Mac-Pan-Pac-Man is a JavaFX-based arcade puzzle game developed as a second-year Bachelor's (L2) project at Université Paris Cité based on the game Pacman. Building upon a base architecture provided by the teaching staff, our team designed, modified, and implemented new features, menus, and multimedia integrations in Java.
 
 The game features classic arcade mechanics combined with an interactive user interface, an intro video sequence, background music, sound effects, level management, and a dynamic multiplayer mode.
 
