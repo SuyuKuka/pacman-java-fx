@@ -1,131 +1,125 @@
-# Jeu de Pacman
+# Mac-Pan-Pac-Man
 
-## Présentation
+## About
 
-Ce Pacman est un jeu d'arcade programmé en Java 17 avec JavaFX. Le projet est configuré avec Gradle utilisant le plugin JavaFX. Ce jeu est largement inspiré du jeu [Pacman](https://fr.wikipedia.org/wiki/Pac-Man), un grand classique de 1980.
+Mac-Pan-Pac-Man is a JavaFX-based arcade puzzle game developed as an academic group project. Building upon a base architecture provided by the teaching staff, our team designed, modified, and implemented new features, menus, and multimedia integrations in Java.
 
-Le principe est archi-connu et plutôt simple (se référer à la page Wikipédia).
- 
-Pour l'instant, seules quelques fonctionnalités basiques sont implémentées... et encore avec des bugs et des tonnes de maladresses. Il est temps de finir ce jeu !
+The game features classic arcade mechanics combined with an interactive user interface, an intro video sequence, background music, sound effects, level management, and a dynamic multiplayer mode.
 
-Objectifs de développement :
+*Note: This application has been fully tested and runs natively on Windows. Running the project on Linux or via WSL may require additional audio and multimedia configuration (such as GStreamer packages or specific audio routing) due to JavaFX and Java Sound platform dependencies. The source code and comments might contains some French.*
 
-- déboguer
-- rationaliser et documenter le code
-- implémenter tout ce qu'on trouve dans tout PacMan de base: le labyrinthe classique, les stratégies des fantômes, les bonus à ramasser, l'effet des super pac-gommes, ...)
-- aller plus loin : plusieurs niveaux, 3D, multijoueur, ... (ce ne sont que des suggestions)
+## Tech Stack
 
-## Instructions
+- **Language:** Java (OpenJDK 21)
+- **Framework & GUI:** JavaFX (Graphics, Media)
+- **Audio:** Java Sound API (`javax.sound.sampled`)
+- **Build System:** Gradle
+- **Architecture:** Model-View-Controller / Component-based GUI design
 
-Dans les instructions ci-dessous, il faut remplacer `myteam` par
+## Key Features
 
-- soit le nom de votre équipe dans gaufre, si le dépôt a été forké au nom de votre équipe,
-- soit le login du membre de votre equipe qui a forké le dépôt pour tout le monde,
-- soit `cproj`, si vous voulez cloner directement le dépôt de l'équipe enseignante.
+**Graphical Interface & Responsive Design:** Built with JavaFX, featuring a custom window layout, adaptive/resizable game views where UI elements dynamically scale and follow screen adjustments, menus, and dedicated game views.
+- **Multimedia Integration:** Includes an introductory video sequence (`MediaPlayer` / `MediaView`) and custom audio/music management (`Music` class).
+- **Classic Arcade Gameplay & Multiplayer:** Faithful recreation of Pac-Man-style grid movement, featuring both a solo mode and a multiplayer mode (co-op or versus).
+- **Level Management:** Structured menus allowing users to transition smoothly from intro to game selection (Solo/Multiplayer modes).
+- **Cross-Platform Compatibility Notes:** Tailored handling for platform-specific multimedia and audio codecs (Windows Media Foundation & Linux/WSL GStreamer integration).
 
-Notez que dans le dernier cas, vous pourrez compiler et exécuter le projet, mais pas faire de `git push`.
+## Project Structure
 
-### Télécharger Pacman
-
-Le plus pratique pour télécharger Pacman afin de participer à son développement, c'est de cloner le dépôt. Depuis la console :
-
-```bash
-$ git clone https://gaufre.informatique.univ-paris-diderot.fr/myteam/pacman
+```text
+📁 pacman-java-fx
+│
+├── 📁 config/                      # Global project configuration files
+├── 📁 gradle/                      # Gradle wrapper files
+├── 📁 src/
+│   ├── 📁 main/
+│   │   ├── 📁 java/                # Main Java source code
+│   │   │   ├── 📁 config/          # Application and maze configurations
+│   │   │   ├── 📁 geometry/        # Geometric calculations and coordinate handling
+│   │   │   ├── 📁 gui/             # Graphical interfaces, views, and window management
+│   │   │   │   ├── 📁 controller/  # Controllers managing user interactions
+│   │   │   │   └── 📁 menu/        # Game menus (Solo, Multiplayer, Main Menu)
+│   │   │   ├── 📁 misc/            # Miscellaneous classes and helper utilities
+│   │   │   ├── 📁 model/           # Data models and core game business logic
+│   │   │   └── 📁 utils/           # Utility classes (Resource management, sound, FPS)
+│   │   │
+│   │   └── 📁 resources/           # Game assets (videos, audio, images, maps)
+│   │
+│   └── 📁 test/                    # Unit tests for the project
+│
+├── 📄 build.gradle                 # Gradle build configuration
+├── 📄 gradlew / gradlew.bat        # Gradle wrapper execution scripts
+└── 📄 README.md                    # Project documentation
 ```
 
-Le projet actuellement développé n'a pas encore eu de release. Ainsi pour l'instant tout est dans la branche `develop`. Donc avant de faire le reste, tapez :
+## Getting Started
+
+### Prerequisites
+
+* Java Development Kit (JDK 21 or compatible)
+* Gradle
+* OS-specific dependencies:
+    * Windows: Standard Windows environment (Media Foundation codecs included).
+    * Linux / WSL: Requires some audio/media packages for JavaFX media playback.
+
+## Installation & Execution
+
+1. **Clone the repository:**
 ```bash
-$ git checkout develop
+git clone https://github.com/SuyuKuka/pacman-java-fx.git
+cd pacman-java-fx
 ```
 
-#### Depuis une machine de TP de la Halle aux Farines
-
-Il semble que l'installation de git sur les machines de TP refuse de reconnaître le certificat de gaufre. Heureusement, on peut demander à git d'ignorer la vérification du certificat :
-
-
+2. **Build the project:**
 ```bash
-$ git clone -c http.sslVerify=false https://gaufre.informatique.univ-paris-diderot.fr/myteam/pacman
+./gradlew build
 ```
 
-Ensuite, vous pouvez enregistrer de façon permanente votre choix d'ignorer la vérification pour ce dépôt :
-
+3. **Launch the game:**
 ```bash
-$ cd pacman
-$ git config http.sslVerify false
-```
-(cela permettra de faire des `git push`, des `git pull` et des `git fetch` sans avoir à préciser à chaque fois `-c http.sslVerify=false`)
-
-## Exécution, compilation
-
-Après avoir téléchargé/cloné les sources, vous pouvez compiler et exécuter le projet à l'aide de gradle.
-Le principe c'est que le script `gradlew` dans le répertoire du projet téléchargera puis utilisera la version de gradle qui fonctionne avec le projet.
-
-Pour compiler, il suffit d'exécuter, depuis le répertoire `pacman` :
-
-```bash
-`./gradlew build`
+./gradlew run
 ```
 
-Pour exécuter, il suffit d'exécuter, depuis le répertoire `pacman` :
-
+4. **Cleaning**
 ```bash
-`./gradlew run`
+./gradlew clean
 ```
 
-Le projet en lui-même a besoin de Java 17 pour être compilé et exécuté.
+## Controls
 
-### Cas particuliers
+* Player 1 / Solo: Arrow keys
+* Player 2: ZQSD or WASD (both layouts are supported)
+* Menu Navigation: Arrows keys or mouse clicks or  to interact with buttons (Solo, Multiplayer, Settings, etc.).
+* Escape: Quit or return to previous menus.
 
-#### Sur une machine de TP de la Halle aux Farines, depuis la console
+## Team
 
-Si vous travaillez depuis une machine des salles de TP de la Halle aux Farines, vous devez d'abord passer certains paramètres à gradle via une variable d'environnement. Cela peut être fait en exécutant 
+This project was developed collaboratively as a 6-person team:
 
-```bash
-$ source SCRIPT/envsetup
-```
+- **CHEN Michel** - Collaborative Java Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/SuyuKuka)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?logo=linkedin)](https://linkedin.com/in/chen-michel)
 
-avant de lancer toute commande gradle (notamment `build` et `run`.
+- **CHIV Henri** - Collaborative Java Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/H-flamme)
 
-Pour être tranquille, vous pouvez insérer cette commande dans votre fichier `~/.bashrc`, cela vous évitera de devoir la taper à la main à chaque nouvelle session. Pensez à adapter la commande en donnant le chemin absolu vers `envsetup`.
+- **DUONG Viet Thanh** - Collaborative Java Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/Tan8520)
 
-Pour information, les paramètres passés à gradle indiquent :
+- **LIN Qinghui** - Collaborative Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/qinghui-lin)
 
-- le fichier de certificats à utiliser pour télécharger les dépendances via HTTPS
-- les paramètres du proxy de la Halle aux Farines
-- le chemin vers Java 17
+- **LIU Shiqi** - Collaborative Java Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/SuyuKuka)
 
-#### Sur une machine de TP de la Halle aux Farines en utilisant Eclipse
+- **Nguyen Duc Vinh** - Collaborative Java Development & Implementation 
+  [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/VHN27)
 
-Eclipse installé sur les machines de TP contient une distribution de Java 17, et semble savoir passer la bonne configuration à Gradle. Pour travailler avec eclipse, il suffit donc de lancer Eclipse (commande `eclipse`), puis d'importer le projet :
+## License
 
-1. File > Import... > Gradle > Existing Gradle Project, Next >
-2. choisir le chemin de pacman et valider avec Finish
+This repository contains academic coursework.
 
-Dans l'onglet "Gradle Tasks", vous trouverez notamment les tâches permettant de compiler et d'exécuter le projet.
+- The initial basecode are the intellectual property of the teaching staff. They are included here strictly for context and evaluation purposes.
+- The core implementations, custom extensions, UI designs, responsive window handling, and gameplay logic are our team's work.
 
-#### Sur une machine personnelle avec Java 11 à 16
-
-Si vous souhaitez/devez travailler avec une version ancienne de Java, il n'est pas très difficile de modifier la configuration : changez juste les numéros de version dans `build.gradle`.
-
-Ensuite, vous pouvez travailler comme avec Java 17 (le projet devrait pouvoir tourner tel quel).
-
-Important : faites un commit de `build.gradle` et poussez-le sur votre fork pour que toutes votre équipe travaille avec la même version de Java.
-
-#### Sur une machine personnelle avec Java 8 à 10 (DISCLAIMER : compliqué !)
-
-Je n'ai pas testé, mais pacman devrait pouvoir tourner (peut-être avec quelques modifications mineures). Malheureusement, ça peut être un peu compliqué.
-
-Dans les grandes lignes :
-
-- Commencez par désactiver le plugin JavaFX dans gradle (toujours dans `build.gradle`), car celui-ci ne fonctionne qu'à partir de Java 11. 
-- Désormais, gradle ne s'occupe plus de télécharger et installer JavaFX. Il faut donc s'assurer de l'avoir installé d'une autre façon. Si vous avez une distribution de Java sans JavaFX (à noter que Oracle Java 8 contient JavaFX), il faut le télécharger et l'installer séparément, en prenant soin de prendre le même numéro de version.
-- Si JavaFX a été installé séparément, il faut le faire savoir à gradle pour qu'il ajoute son répertoire au classpath.
-- Si vous utilisez Java 9 ou 10, il y a de la configuration de modules JPMS à faire à la main. Je ne vais expliquer, ni ce que c'est, ni en quoi ça consiste ici. Il est possible de trouver de l'aide dans les forums.
-
-Bref, il est grandement conseillé d'utiliser une version plus récente de Java. Néanmoins, si vous n'avez pas le choix et que vous êtes en difficulté, demandez de l'aide à vos enseignants.
-
-Important : là aussi, il faut ensuite que toute votre équipe travaille avec la même version de Java. Faites un commit de `build.gradle` et poussez-le sur votre fork pour que toutes votre équipe travaille avec la même version de Java.
-
-## Jouer
-
-Pacman est contrôlé par les 4 flèches de direction... et c'est tout.
+This project is shared for portfolio and reference purposes only.
